@@ -1,0 +1,57 @@
+import org.springframework.stereotype.Repository;
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
+
+@Repository
+public class TherapistCriteriaRepository {
+
+    private final EntityManager entityManager;
+
+    @Autowired
+    public TherapistCriteriaRepository(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public List<Therapist> searchTherapistsByFullnameAndActivated(String fullname, boolean activated) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Therapist> criteriaQuery = criteriaBuilder.createQuery(Therapist.class);
+        Root<Therapist> therapistRoot = criteriaQuery.from(Therapist.class);
+
+        // Create predicates based on search criteria
+        Predicate fullnamePredicate = criteriaBuilder.equal(therapistRoot.get("fullname"), fullname);
+        Predicate activatedPredicate = criteriaBuilder.equal(therapistRoot.get("activated"), activated);
+
+        // Combine predicates using AND
+        Predicate finalPredicate = criteriaBuilder.and(fullnamePredicate, activatedPredicate);
+
+        // Set the WHERE clause
+        criteriaQuery.where(finalPredicate);
+
+        // Execute the query
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+    
+    
+    public List<Therapist> searchTherapistsByFullnamesAndActivated(List<String> fullnames, boolean activated) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Therapist> criteriaQuery = criteriaBuilder.createQuery(Therapist.class);
+        Root<Therapist> therapistRoot = criteriaQuery.from(Therapist.class);
+
+        // Create a list of predicates based on the fullnames
+        Predicate fullnamePredicate = therapistRoot.get("fullname").in(fullnames);
+        Predicate activatedPredicate = criteriaBuilder.equal(therapistRoot.get("activated"), activated);
+
+        // Combine predicates using AND
+        Predicate finalPredicate = criteriaBuilder.and(fullnamePredicate, activatedPredicate);
+
+        // Set the WHERE clause
+        criteriaQuery.where(finalPredicate);
+
+        // Execute the query
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+}

@@ -1,0 +1,89 @@
+server:
+  port: 8082
+  servlet:
+    context-path: /therapists
+spring:
+  application:
+    name: THERAPIST-SERVICE
+  datasource:
+    url: jdbc:mysql://mydatabase.cvzfrhvlptlo.ap-south-1.rds.amazonaws.com:3306/db_therapists_test
+    username: darb
+    password: JIqiCAFonPaEzg8L7Ivv
+#    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/db_therapists_test
+#    username: ${MYSQL_USER:root}
+#    password: ${MYSQL_PASSWORD:arrahmankm}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true    
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:emailaddress@gmail.com}
+    password: ${MAIL_PASSWORD:password}
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: true    
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+  codec:
+    max-in-memory-size: 20MB
+jwt:
+  secret:
+    key:
+      therapists:
+        access_token: IaiYw5wsEs9UNE6Y557it0VyIVaMz9PZmXx8EsqlZFM
+        expiration: 6000000
+        refresh_token:
+          expiration: 86400000
+      common: IaiYw5wsEs9UNE6Y557it0VyIVaMz9PZmXx8EsqlZFM
+  filter:
+    disable:
+      request:
+        uris: /therapists/api/v1/auth/**,
+              /therapists/api/v1/public/**,
+              /therapists/api/v1/payments/**,
+              /therapists/api/v1/reviews/**,
+              /therapists/api/v1/public-to-admin/**,
+              /therapists/api/v1/therapist_booking/**,
+              /therapists/api/v1/therapist-to-admin/**,
+              /therapists/api/v1/therapist-to-user/**,
+              /therapists/api/v1/messages-to-user/**,
+              /therapists/api/v1/admin-defined-times/**,
+              /therapists/ws/**,
+              /therapists/resources/**,
+              /therapists/static/**,
+              /therapists/css/**,
+              /therapists/js/**,
+              /therapists/images/**,
+              /therapists/vendor/**,
+              /therapists/fonts/**,
+              /therapists/videos/**
+filter:
+  url:
+    patterns: /api/v1/therapist-to-admin/*,
+              /api/v1/therapist-to-user/*,
+              /api/v1/messages-to-user/*,
+              /api/v1/reviews/*
+#              /api/v1/admin-defined-times/*
+razorpay: 
+  api:
+    key: rzp_test_K9qFfxNeV2pv2R
+    key_secret: 5OJiiEeTHlvsvDuC8v5N9pDX
+    currency: INR
+aws:
+  region: ap-south-1
+  s3:
+    buckets:
+      therapist: therapists-app-bucket
+stripe:
+  apikey: sk_test_51O8UHMSE2trOk8P8tgPe1WsvVURz5nosnq63v6pNyLfyNg5euMF9n69qAFwXhmHsc8zNFUY3AnW6eFYk7cGXHAY000emCk4BW0
+               
