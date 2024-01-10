@@ -6,12 +6,9 @@ spring:
   application:
     name: THERAPIST-SERVICE
   datasource:
-    url: jdbc:mysql://mydatabase.cvzfrhvlptlo.ap-south-1.rds.amazonaws.com:3306/db_therapists_test
-    username: darb
-    password: JIqiCAFonPaEzg8L7Ivv
-#    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/db_therapists_test
-#    username: ${MYSQL_USER:root}
-#    password: ${MYSQL_PASSWORD:arrahmankm}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/db_therapists_test
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:arrahmankm}
   jpa:
     hibernate:
       ddl-auto: update
