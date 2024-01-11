@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.Message;
@@ -27,12 +28,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Autowired
 	private ThreadPoolTaskScheduler threadPoolTaskScheduler;
 	
+	@Value("${cors.set.allowed.origins}")
+	private String[] CROSS_ORIGIN_URLS;
+	
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
 		// with sockjs
 		registry
 		.addEndpoint("/ws")
-		.setAllowedOrigins("http://localhost:5173")
+//		.setAllowedOrigins("http://localhost:5173")
+		.setAllowedOrigins(CROSS_ORIGIN_URLS)
 		.withSockJS()
 		.setTaskScheduler(threadPoolTaskScheduler);
 		
